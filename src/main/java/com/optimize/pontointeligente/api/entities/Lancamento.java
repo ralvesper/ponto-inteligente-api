@@ -1,4 +1,4 @@
-package com.optimize.pontointeligente.entities;
+package com.optimize.pontointeligente.api.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.optimize.pontointeligente.enums.TipoEnum;;
+import com.optimize.pontointeligente.api.enums.TipoEnum;;
 
 @Entity
 @Table(name = "lancamento")
