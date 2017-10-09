@@ -1,5 +1,6 @@
 package com.optimize.pontointeligente.api.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.optimize.pontointeligente.api.entities.Empresa;
@@ -21,5 +22,18 @@ public interface EmpresaService {
 	 * @return Empresa
 	 */
 	Empresa persistir(Empresa empresa);
+	
+	
+	/**
+	 * Retorna todas as Empresas cadastradas
+	 * @return Optional<List<Empresa>>
+	 */
+	Optional<List<Empresa>> findAll();
+	
+	/**
+	 * Retorna todas as Empresas cadastradas por razao social
+	 * @return Optional<List<Empresa>>
+	 */
+	Optional<List<Empresa>> findByRazaoSocialLike(String razaoSocial);
 	
 }

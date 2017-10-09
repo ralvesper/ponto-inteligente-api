@@ -1,6 +1,9 @@
 package com.optimize.pontointeligente.api.repositories;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,15 +24,17 @@ import com.optimize.pontointeligente.api.entities.Empresa;;
 @DataJpaTest
 public class EmpresaRepositoryTest {
 	
+	private static final String RASAO_SOCIAL = "Empresa de exemplo";
+	private static final String CNPJ = "51463645000100";
+
 	@Autowired
 	private EmpresaRepository empresaRepository;
 	
-	private static final String CNPJ = "51463645000100";
 
 	@Before
 	public void setUp() throws Exception {
 		Empresa empresa = new Empresa();
-		empresa.setRazaoSocial("Empresa de exemplo");
+		empresa.setRazaoSocial(RASAO_SOCIAL);
 		empresa.setCnpj(CNPJ);
 		this.empresaRepository.save(empresa);
 	}
@@ -42,8 +47,20 @@ public class EmpresaRepositoryTest {
 	@Test
 	public void testBuscarPorCnpj() {
 		Empresa empresa = this.empresaRepository.findByCnpj(CNPJ);
-		
 		assertEquals(CNPJ, empresa.getCnpj());
+	}
+	
+	@Test
+	public void testBuscarEmpresasPorRazaoSocialLike(){
+		List<Empresa> empresas = this.empresaRepository.findByRazaoSocialContaining("exemplo");
+		assertNotNull(empresas);
+		
+	}
+	
+	@Test
+	public void testBuscarTodasAsEmpresas(){
+		List<Empresa> empresas = this.empresaRepository.findAll();
+		assertNotNull(empresas);
 	}
 
 }

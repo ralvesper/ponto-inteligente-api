@@ -1,5 +1,7 @@
 package com.optimize.pontointeligente.api.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -29,6 +31,27 @@ public class EmpresaController {
 
 	public EmpresaController() {
 	}
+	
+	/**
+	 * Busca todas as empresas cadastradas.
+	 * @return ResponseEntity<Response<List<EmpresaDto>>>
+	 */
+	@GetMapping
+	public ResponseEntity<Response<List<EmpresaDto>>> buscarTodasEmpresas() {
+		log.info("Buscando todas as empresas");
+		Response<List<EmpresaDto>> response = new Response<>();
+		Optional<List<Empresa>> empresas = empresaService.findAll();
+
+		if (!empresas.isPresent()) {
+			log.info("Nenhuma empresa cadastrada");
+			response.getErrors().add("Nenhma empresa cadastrada");
+			return ResponseEntity.ok().body(response);
+		}
+
+		response.setData(this.converterListaEmpresaDto(empresas.get()));
+		return ResponseEntity.ok(response);
+
+	}
 
 	/**
 	 * Retorna uma empresa dado um CNPJ.
@@ -50,6 +73,35 @@ public class EmpresaController {
 
 		response.setData(this.converterEmpresaDto(empresa.get()));
 		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * Busca empresas que combinam com a razao social pesquisada.
+	 * @param razaoSocial
+	 * @return ResponseEntity<Response<List<EmpresaDto>>>
+	 */
+	@GetMapping(value = "/razaoSocial/{razaoSocial}")
+	public ResponseEntity<Response<List<EmpresaDto>>> buscarEmpresasPorRazaoSocial(
+			@PathVariable("razaoSocial") String razaoSocial) {
+		log.info("Buscando todas empresas por razão social ");
+		Response<List<EmpresaDto>> response = new Response<>();
+		Optional<List<Empresa>> empresas = empresaService.findByRazaoSocialLike(razaoSocial);
+
+		if (!empresas.isPresent()) {
+			log.info("Nenhuma empresa cadastrada com razao social {}", razaoSocial);
+			response.getErrors().add("Nenhma empresa cadastrada com razao social " + razaoSocial);
+			return ResponseEntity.ok().body(response);
+		}
+
+		response.setData(this.converterListaEmpresaDto(empresas.get()));
+		return ResponseEntity.ok(response);
+
+	}
+
+	private List<EmpresaDto> converterListaEmpresaDto(List<Empresa> empresas) {
+		List<EmpresaDto> empresasDtos = new ArrayList<>();
+		empresas.forEach(empresa -> empresasDtos.add(this.converterEmpresaDto(empresa)));
+		return empresasDtos;
 	}
 
 	/**

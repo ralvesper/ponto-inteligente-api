@@ -1,5 +1,6 @@
 package com.optimize.pontointeligente.api.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -30,5 +31,21 @@ public class EmpresaServiceImpl implements EmpresaService {
 		log.info("Persistindo empresa: {}", empresa);
 		return this.empresaRepository.save(empresa);
 	}
+
+	@Override
+	public Optional<List<Empresa>> findAll() {
+		log.info("Buscando todas as empresas");
+		List<Empresa> empresas = empresaRepository.findAll();
+		return Optional.ofNullable(empresas);
+	}
+
+	@Override
+	public Optional<List<Empresa>> findByRazaoSocialLike(String razaoSocial) {
+		log.info("Buscando todas as empresas");
+		List<Empresa> empresas = empresaRepository.findByRazaoSocialContaining(razaoSocial);
+		return Optional.ofNullable(empresas);
+	}
+
+	
 
 }

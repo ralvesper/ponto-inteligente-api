@@ -1,12 +1,12 @@
 package com.optimize.pontointeligente.api.response;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Response<T> {
 
 	private T data;
-	private List<String> errors;
+	private List<String> errors = new LinkedList<String>();
 
 	public Response() {
 	}
@@ -20,14 +20,15 @@ public class Response<T> {
 	}
 
 	public List<String> getErrors() {
-		if (this.errors == null) {
-			this.errors = new ArrayList<String>();
-		}
 		return errors;
 	}
 
 	public void setErrors(List<String> errors) {
 		this.errors = errors;
+	}
+	
+	public void addError(String mensagem){
+		this.getErrors().add(mensagem);
 	}
 
 }

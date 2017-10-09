@@ -31,6 +31,11 @@ public class Empresa implements Serializable {
 	
 	public Empresa() {
 	}
+	
+	public Empresa(String razaoSocial, String cnpj){
+		this.razaoSocial = razaoSocial;
+		this.cnpj = cnpj;
+	}
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
