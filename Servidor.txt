@@ -1,0 +1,3 @@
+http://localhost:9990/console/App.html
+User: JBoss
+Pass: admin
